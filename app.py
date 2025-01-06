@@ -12,32 +12,35 @@ difficulty = int(input("Choose a difficulty: "))
 import random
 
 selected_country = random.choice(countries)
-print(selected_country)
 
 letter_number = len(selected_country)
+print(letter_number * "_ ")
 
-print(replace()(letter_number * "_ "))
+lives = {
+    1: 10,
+    2: 7,
+    3: 5
+}
 
-if difficulty == 1:
-    life = 10
-    print(f"Beginner difficulty was chosen, your lives: {life}")
-    guess = input("Choose a letter: ")
-
-elif difficulty == 2:
-    life_2 = 7
-    print(f"Intermediate difficulty was chosen, your lives: {life_2}")
-
-elif difficulty == 3:
-    life_3 = 5
-    print(f"Hard difficulty was chosen, your lives: {life_3}")
-else:
-    print("Wrong number")
-
-
-# print(countries[0])
-# for char in countries[0]:
-#     print(char)
-#     if char == guess:
-#         print("Nice one!")
-#     else:
-#         print("Try again")
+if difficulty in lives:
+    life = lives[difficulty]
+    print(f"{['Beginner', 'Intermediate', 'Hard'][difficulty - 1]} difficulty was chosen, your lives: {life}")
+    guessed_letters = []
+    while life > 0:
+        guess = input("Choose a letter: ").lower()
+        if len(guess) != 1:
+            print("Please enter a single letter.")
+        elif guess in guessed_letters:
+            print("You already guessed this letter.")
+        elif guess in selected_country.lower():
+            print("Correct!")
+            guessed_letters.append(guess)
+        else:
+            life -= 1
+            print(f"Incorrect! You have {life} lives left.")
+            guessed_letters.append(guess)
+        print(" ".join([c if c.lower() in guessed_letters else "_" for c in selected_country]))
+    if selected.country == guess:
+        print("Congratulations, you won!")
+    else:
+        print(f"Game over. The country was {selected_country}" )
