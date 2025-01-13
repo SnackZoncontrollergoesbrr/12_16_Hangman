@@ -14,7 +14,6 @@ import random
 selected_country = random.choice(countries)
 
 letter_number = len(selected_country)
-print(letter_number * "_ ")
 
 lives = {
     1: 10,
@@ -27,7 +26,15 @@ if difficulty in lives:
     print(f"{['Beginner', 'Intermediate', 'Hard'][difficulty - 1]} difficulty was chosen, your lives: {life}")
     guessed_letters = []
     while life > 0:
+        current_display = " ".join([c if c.lower() in guessed_letters else "_" for c in selected_country])
+        print(current_display)
+
+        if all(c.lower() in guessed_letters for c in selected_country):
+            print(f"Congratulations, you won! The country was {selected_country}.")
+            break
+
         guess = input("Choose a letter: ").lower()
+
         if len(guess) != 1:
             print("Please enter a single letter.")
         elif guess in guessed_letters:
@@ -39,8 +46,8 @@ if difficulty in lives:
             life -= 1
             print(f"Incorrect! You have {life} lives left.")
             guessed_letters.append(guess)
-        print(" ".join([c if c.lower() in guessed_letters else "_" for c in selected_country]))
-    if selected.country == guess:
-        print("Congratulations, you won!")
-    else:
-        print(f"Game over. The country was {selected_country}" )
+
+    if life == 0:
+        print(f"Game over. The country was {selected_country}.")
+else:
+    print("Invalid difficulty level chosen.")
